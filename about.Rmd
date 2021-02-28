@@ -10,3 +10,5 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 This is the personal blog of **Pablo Tercero**
+
+![pablo](img/PabloChicagoHardieOfficeRotated.JPG)
