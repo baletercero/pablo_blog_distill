@@ -1,9 +1,12 @@
 ---
 title: "About this blog"
 description: |
-  Some additional details about the blog
+  Some additional details about the blog.
+
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
+This is the personal blog of **Pablo Tercero**

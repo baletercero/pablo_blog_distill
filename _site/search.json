@@ -3,17 +3,17 @@
     {
       "path": "about.html",
       "title": "About this blog",
-      "description": "Some additional details about the blog",
+      "description": "Some additional details about the blog.\n",
       "author": [],
-      "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-02-28T15:39:34-06:00"
+      "contents": "\r\nThis is the personal blog of Pablo Tercero\r\n\r\n\r\n\r\n",
+      "last_modified": "2021-02-28T17:09:31-06:00"
     },
     {
       "path": "index.html",
       "title": "My Distill Blog",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-02-28T15:39:34-06:00"
+      "last_modified": "2021-02-28T15:48:50-06:00"
     }
   ],
   "collections": ["posts/posts.json"]
