@@ -2,18 +2,18 @@
   {
     "path": "posts/welcome/",
     "title": "Welcome to My Distill Blog",
-    "description": "Welcome to our new blog, My Distill Blog. We hope you enjoy \nreading what we have to say!",
+    "description": "Welcome to my new blog. I hope you enjoy \nreading what we have to say!",
     "author": [
       {
         "name": "Pablo Tercero",
-        "url": "https://example.com/norajones"
+        "url": "https://baledatascience.netlify.app/"
       }
     ],
     "date": "2021-02-28",
     "categories": [],
-    "contents": "\r\nThis is me :\r\n\r\n\r\n\r\n",
+    "contents": "\r\nThis is my first attempt at creating a small personal website for blog posts I create to solidify my understanding of data science concepts, techniques, libraries ,etc…\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2021-02-28T17:20:50-06:00",
-    "input_file": {}
+    "last_modified": "2021-02-28T18:44:19-06:00",
+    "input_file": "welcome.utf8.md"
   }
 ]
