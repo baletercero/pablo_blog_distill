@@ -1,14 +1,20 @@
 ---
 title: "About this blog"
 description: |
-  Some additional details about the blog.
+  This is the personal blog of **Pablo Tercero**
 
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, out.width = '50%', out.heigth = '50%')
 ```
 
-This is the personal blog of **Pablo Tercero**
+I'm a Data Scientist at [James Hardie Building Products](https://www.jameshardie.com/) based out of Chicago, IL
 
-![pablo](img/PabloChicagoHardieOfficeRotated.JPG)
+For as long as I can remember I have been passionate about data science, statistics and programming.
+
+My interests are all things R/RStudio , Python , machine/deep learning and web development. I enjoy chess and golf.
+
+![Pablo](img/PabloChicagoHardieOfficeRotated.JPG)
+
+
