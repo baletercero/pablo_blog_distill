@@ -6,14 +6,14 @@
       "description": "This is the personal blog of **Pablo Tercero**\n",
       "author": [],
       "contents": "\r\nI’m a Data Scientist at James Hardie Building Products based out of Chicago, IL\r\nFor as long as I can remember I have been passionate about data science, statistics and programming.\r\nMy interests are all things R/RStudio , Python , machine/deep learning and web development. I enjoy chess and golf.\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-02-28T18:37:31-06:00"
+      "last_modified": "2021-02-28T18:58:41-06:00"
     },
     {
       "path": "index.html",
       "title": "My Distill Blog",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-02-28T17:25:27-06:00"
+      "last_modified": "2021-02-28T18:58:42-06:00"
     }
   ],
   "collections": ["posts/posts.json"]
