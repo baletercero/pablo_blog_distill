@@ -2,7 +2,7 @@ name: "pablo_blog_distill"
 title: "My Distill Blog"
 description: |
   My Distill Blog
-base_url: https://vibrant-hawking-c14c2b.netlify.app/
+base_url: https://baledatascience.netlify.ap
 output_dir: "_site"
 navbar:
   right:
