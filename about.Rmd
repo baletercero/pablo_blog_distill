@@ -15,6 +15,10 @@ For as long as I can remember I have been passionate about data science, statist
 
 My interests are all things R/RStudio , Python , machine/deep learning and web development. I enjoy chess and golf.
 
-![Pablo](img/PabloChicagoHardieOfficeRotated.JPG)
+
+```{r}
+knitr::include_graphics("img/PabloChicagoHardieOfficeRotated.JPG")
+```
+
 
 
