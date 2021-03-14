@@ -1,5 +1,27 @@
 ---
-title: "My Distill Blog"
+title: "Pablo Tercero"
+image: "img/PabloChicagoHardieOfficeRotated.JPG"
 site: distill::distill_website
 listing: posts
+links:
+  - label: GitHub
+    url: "https://github.com/baletercero"
+  - label: Twitter
+    url: "https://twitter.com/pablotercero1"
+  - label: LinkedIn
+    url: "https://www.linkedin.com/in/pablotercerorubio/"
+preview: img/PabloChicagoHardieOfficeRotated.JPG
+twitter:
+  creator: "@pablotercero1"
+output:
+  postcards::trestles
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+### Welcome to my personal website!
+
+I'm a Data Scientist at [James Hardie Building Products](https://www.jameshardie.com/) based out of Chicago, IL. I'm passionate about all things R , Python, machine/deep learning and web development. Of particular interest to me are forecasting techniques and libraries as I have spent a few years of my professional career in demand planning. 
+Check out my [about](about.html) page for more about me, and explore the site menu to view my [blog posts](blog.html).

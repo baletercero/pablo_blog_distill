@@ -1,5 +1,5 @@
 name: "pablo_blog_distill"
-title: "My Distill Blog"
+title: "Pablo Tercero's personal website"
 description: |
   My Distill Blog
 base_url: https://baledatascience.netlify.ap
@@ -16,6 +16,7 @@ output: distill::distill_article
 collections:
   posts:
     share: [twitter, linkedin]
+
 twitter: 
   site: '@pablotercero1'
   creator: '@pablotercero1'
