@@ -22,5 +22,8 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Welcome to my personal website!
 
+This is my first attempt at creating a small personal website for 
+blog posts I create to solidify my understanding of data science concepts, techniques, libraries ,etc...
+
 I'm a Data Scientist at [James Hardie Building Products](https://www.jameshardie.com/) based out of Chicago, IL. I'm passionate about all things R , Python, machine/deep learning and web development. Of particular interest to me are forecasting techniques and libraries as I have spent a few years of my professional career in demand planning. 
 Check out my [about](about.html) page for more about me, and explore the site menu to view my [blog posts](blog.html).

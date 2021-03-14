@@ -22,8 +22,7 @@ library(here)
 ```
 
 
-This is my first attempt at creating a small personal website for 
-blog posts I create to solidify my understanding of data science concepts, techniques, libraries ,etc...
+Welcome to my blog page. Here I will post small projects that are of interest to me and hoepfully to you too !
 
 Soon I will complete this blog with a forecasting project , housing permits predictions using [Orbit](https://github.com/uber/orbit) 
 
