@@ -7,7 +7,8 @@ author:
   - name: Pablo Tercero 
     url: https://baledatascience.netlify.app/
 date: 02-28-2021
-output: html_document
+output: 
+  distill::distill_article
 ---
 
 ```{r setup, include=FALSE}
@@ -25,8 +26,8 @@ This is my first attempt at creating a small personal website for
 blog posts I create to solidify my understanding of data science concepts, techniques, libraries ,etc...
 
 Soon I will complete this blog with a forecasting project , housing permits predictions using [Orbit](https://github.com/uber/orbit) 
+
 ```{r orbit-image, fig.width=8, fig.height= 6}
 include_graphics(here('img/orbit-banner.png'))
-
 ```
 

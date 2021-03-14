@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "path": "posts/welcome/",
+    "title": "Welcome to My Distill Blog",
+    "description": "Welcome to my new blog. I hope you enjoy \nreading what we have to say!",
+    "author": [
+      {
+        "name": "Pablo Tercero",
+        "url": "https://baledatascience.netlify.app/"
+      }
+    ],
+    "date": "2021-02-28",
+    "categories": [],
+    "contents": "\r\nThis is my first attempt at creating a small personal website for blog posts I create to solidify my understanding of data science concepts, techniques, libraries ,etc…\r\nSoon I will complete this blog with a forecasting project , housing permits predictions using Orbit\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "preview": "posts/welcome/distill-preview.png",
+    "last_modified": "2021-03-14T18:19:36-05:00",
+    "input_file": {},
+    "preview_width": 918,
+    "preview_height": 280
+  }
+]
