@@ -1,0 +1,238 @@
+---
+title: "Census Housing Permits Forecasts"
+description: "A simple exercise of forecasting census permits using Neural Prophet"
+author: Pablo Tercero
+date: 03-07-2021
+output:
+  distill::distill_article:
+    self_contained: true
+draft: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+setwd("D:/Documents/PTR/GitHub/DataScienceR/DataScienceR/Projects/blog/PTRBlog/pablo_blog_distill/_posts/2021-03-07-test-1-blog")
+library(tidyverse)
+library(readxl)
+library(lubridate)
+
+library(gt)
+library(scales)
+```
+
+This notebook walks through the exercise of fitting a Prophet model on the census data provided at <https://www.census.gov/construction/nrc/historical_data/index.html>.
+
+In particular we'll use the Housing Units Authorized in Permit‐Issuing Places.
+
+![NeuralProphet](img/neural_prophet.png) As described in the [github page[(<https://github.com/ourownstory/neural_prophet>)] Neural Prophet is a time series model inspired by Facebook's Prophet and AR-NET , built on PyTorch.
+
+## Load data
+
+I have stored the data downloaded from the census link above for permits in a file called permits_cust.xls , I read it with read_excel. And here's what the data looks like :
+
+```{r load-data }
+permits_raw <- read_excel('data/permits_cust.xls',sheet = 'PermitsUA', skip = 9,
+                          col_names = c('universe','date_unfmt','total','total_1unit',
+                                        'total_2to4units','total_5+units','ne_total',
+                                        'ne_1unit','mw_total','mw_1unit','south_total',
+                                        'south_1unit','west_total','west_1unit'),
+                          na = '(NA)')
+```
+
+```{r show-raw-data, echo=FALSE}
+permits_raw %>% head() %>% select(1:6) %>% gt() %>% 
+  tab_header(title = 'Raw permits data from census.gov')
+```
+
+After a bit of cleanup , including converting to dates (months) , a sample of the data looks like this :
+
+```{r show-sample-prep-data, echo=FALSE}
+permits <- permits_raw %>% mutate(date = as.Date(as.integer(date_unfmt),origin='1899-12-30')) %>%  filter(!is.na(date)) %>% select(-universe,-date_unfmt) %>% select(date,everything())
+permits %>% slice_sample(n=10) %>% select(1:6) %>% gt() %>% 
+  tab_header(title = 'Raw permits data from census.gov')
+```
+
+## Plot
+
+```{r plot-original-data}
+permits %>% ggplot(aes(x=date,y=total)) + 
+  geom_line(color='blue') + 
+  labs(title = 'New Privately Owned Housing Units Authorized by Building Permits\n 
+       in Permit-Issuing Places', y='# of Housing Units *(K)', x= NULL, caption = 'Source: census.gov') +
+  #theme(axis.text.x = element_text(angle = 45)) +
+  scale_x_date(breaks = '5 years') +
+  theme_bw()
+```
+
+The API for Neural Prophet (NP) I found is written for Python , so this study turns to reticulate , the r library to interact with Python in RMarkdown. Below are some resources if you're interested :
+
+-   Github : <https://rstudio.github.io/reticulate/>
+
+-   RStudio video : <https://docs.rstudio.com/tutorials/user/using-python-with-rstudio-and-reticulate/>
+
+## Using python
+
+First , import the library , then check my anaconda environments (where I have python.exe) and finally choose the environment to use in this blog post
+
+```{r use-reticulate}
+library(reticulate)
+conda_list()
+use_condaenv('neuralprophet')
+```
+
+The data for the algorithm needs to be prepared (it wants the date on a column named ds and the variable to forecast in y).
+
+```{python create-model-data}
+permits_total = r.permits[['date','total']].rename(columns={'date':'ds','total':'y'})
+```
+
+I also create a train and test set with the intent of measuring the predictive capability of NP in data the model hasn't seen
+
+## Train and test
+
+One can also choose to create them based on holding out a part of the time series for testing
+
+```{python}
+test_size = 120
+train_df = permits_total[:-test_size]
+test_df = permits_total[-test_size:]
+train_df.head()
+```
+
+## Import NeuralProphet
+
+```{python}
+from neuralprophet import NeuralProphet
+```
+
+## Fit the model on training data 
+
+Here's where NP trains the model, since this is meant to evaluate the Neural Prophet , I choose the defaults. Perhaps in other blogs there can be a deep dive and tuning.
+
+```{python message=FALSE, warning=FALSE}
+m = NeuralProphet()
+train_fit = m.fit(train_df,freq='MS')
+```
+
+```{python}
+train_fit.tail()
+```
+
+#### Side note
+
+It is worth noting that NP provides a method to get train and test :
+
+```{python include=FALSE}
+df_train , df_val = m.split_df(permits_total, valid_p = 0.2)
+df_train.head()
+```
+
+But a different method to obtain train and test was used here.
+
+### (Fit) Validation metrics
+
+```{python}
+val_metrics = m.test(test_df)
+val_metrics
+```
+
+These are the metrics provided by the API for the fit , however , below , a presentation of the author's method for calculating the holdout forecast accuracy based on own work and experience.
+
+## Alternative way to validate
+
+Create a test dataset starting from the end of training and predict using the trained model
+
+*Note : Had to use the m.make_future_dataframe as it creates its own structure to send to predict*
+
+```{python }
+future = m.make_future_dataframe(train_df, periods=120)
+future.head()
+holdout_fcst = m.predict(future)
+```
+
+## Plot the predictions
+
+```{python include = FALSE, echo=FALSE}
+import matplotlib.pyplot as plt
+import pandas as pd
+```
+
+```{python}
+m.plot(holdout_fcst);
+plt.show()
+```
+
+### Now a dataset with the acutals and forecasts is created to measure accuracy
+
+```{python}
+df_final = pd.merge(permits_total, holdout_fcst[['ds','yhat1']], on='ds', how='left')
+df_final.tail()
+```
+
+```{python}
+df_final['abs_error'] = abs(df_final['y']-df_final['yhat1'])
+df_final.tail()
+```
+
+SMAPE is used but evidently other measures can be similarly be calculated
+
+```{r}
+py$df_final %>% as_tibble() %>% rename(actuals=y,forecasts=yhat1) %>% 
+  mutate(ds = ymd(as.Date(ds))) %>% 
+  filter(!is.na(abs_error)) %>% 
+  filter(ds>ymd('2020-01-01')) %>% 
+  summarise(across(-ds,sum)) %>% 
+  mutate(avg_act_fcst = (actuals+forecasts)/2,
+         smape = abs_error/avg_act_fcst,
+         accuracy = percent(1-smape,accuracy = 0.01) )
+```
+
+### Plot of actuals and forecasts
+
+```{r}
+py$df_final %>% as_tibble() %>% rename(actuals=y,forecasts=yhat1) %>% 
+  pivot_longer(cols = c(actuals,forecasts), names_to = 'series') %>% 
+  ggplot(aes(ds,value,color=series)) + geom_line() + theme_bw()
+```
+
+It is clear that just using past history it would have been (and still is) hard to accurately predict the rather noticeable growth in permits even in the midst of a pandemic
+
+## Predict one year into the future
+
+```{python }
+future = m.make_future_dataframe(permits_total, periods=12)
+forecast = m.predict(future)
+```
+
+## Plot the predictions
+
+```{python}
+m.plot(forecast);
+plt.show()
+```
+
+It's also possible to do the plot in R by referencing the forecast object with py\$forecast
+
+```{r}
+py$forecast %>% as_tibble() %>% mutate(ds = as.Date(ds)) %>% 
+  ggplot(aes(ds,yhat1)) + geom_line() + scale_x_date(breaks = '1 month') +
+  labs(title = 'Forecasts for Holdout period' , y='K permits', x=NULL)
+```
+
+There are some nice features from the library (quite similar if not identical than the ones from Facebook prophet's api)
+
+These are the time series components .
+
+```{python}
+m.plot_components(forecast);
+plt.show()
+```
+
+And the parameters of the fit can also be displayed
+
+```{python}
+m.plot_parameters();
+plt.show()
+```
+
+I really enjoyed creating this notebook and experimenting with NeuralProphet , I hope you do to , please reach out with comments and feedback if you share the interest in forecasting.

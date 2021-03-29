@@ -1,0 +1,82 @@
+---
+title: "Test 1 Blog"
+description: "A simple exercise of forecasting census permits using Orbit"
+author: Pablo Tercero
+date: 03-07-2021
+output:
+  distill::distill_article:
+    self_contained: true
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(readxl)
+library(lubridate)
+```
+
+## Load data 
+
+```{r}
+permits_raw <- read_excel('data/permits_cust.xls',sheet = 'PermitsUA', skip = 9,col_names = c('universe','date_unfmt','total','total_1unit','total_2to4units','total_5+units','ne_total','ne_1unit',
+                      'mw_total','mw_1unit','south_total','south_1unit','west_total','west_1unit'),na = '(NA)')
+permits_raw %>% head()
+
+permits <- permits_raw %>% mutate(date = as.Date(as.integer(date_unfmt),origin='1899-12-30')) %>%  filter(!is.na(date)) %>% select(-universe,-date_unfmt) %>% select(date,everything())
+permits %>% slice_sample(n=10)
+```
+
+## Plot 
+
+```{r}
+permits %>% ggplot(aes(x=date,y=total)) + geom_line(color='blue')
+```
+
+## Using python 
+
+```{r}
+library(reticulate)
+conda_list()
+use_condaenv('bayesian')
+```
+
+## Train and test
+
+```{python}
+test_size = 36
+train_df = r.permits[:-test_size]
+test_df = r.permits[-test_size:]
+train_df.head()
+```
+
+## Import orbit
+
+```{python}
+import orbit
+from orbit.models.dlt import DLTFull
+from orbit.diagnostics.plot import plot_predicted_data
+```
+
+```{python}
+dlt = DLTMAP( 
+    #DLTFull(
+    response_col='total',
+    date_col='date',
+    #regressor_col=['trend.unemploy', 'trend.filling', 'trend.job'],
+    seasonality=12,
+    seed=2020,
+    global_trend_option = 'loglinear'
+)
+dlt.fit(df=train_df)
+```
+
+```{python}
+import pystan
+model_code = 'parameters {real y;} model {y ~ normal(0,1);}'
+model = pystan.StanModel(model_code=model_code)  # this will take a minute
+y = model.sampling(n_jobs=1).extract()['y']
+y.mean()  # should be close to 0
+```
+
