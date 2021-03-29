@@ -7,7 +7,16 @@
     <description>My Distill Blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 28 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 07 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Census Housing Permits Forecasts</title>
+      <dc:creator>Pablo Tercero</dc:creator>
+      <link>https://baledatascience.netlify.ap/posts/2021-03-07-test-1-blog</link>
+      <description>A simple exercise of forecasting census permits using Neural Prophet</description>
+      <guid>https://baledatascience.netlify.ap/posts/2021-03-07-test-1-blog</guid>
+      <pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://baledatascience.netlify.ap/posts/2021-03-07-test-1-blog/distill-preview.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Welcome to My Distill Blog</title>
       <dc:creator>Pablo Tercero</dc:creator>
